@@ -1,45 +1,56 @@
 # please use this with xset dpms, hdparm
 
+# turn on kernel options
+opt() {
+  echo $2 > $1 &> /dev/null &
+  [[ $? != 0 ]] && echo "option $1 is not avail"
+}
+
+try() {
+  $1 &> /dev/null &
+  [[ $? != 0 ]] && echo "fail to run $1"
+}
+
 # nmi_watchdog
-echo 0 > /proc/sys/kernel/nmi_watchdog &
+opt /proc/sys/kernel/nmi_watchdog 1
 
 # cpu
-echo 1 > /sys/devices/system/cpu/sched_smt_power_savings
-echo 1 > /sys/devices/system/cpu/sched_mc_power_savings
-for i in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do echo powersave > $i; done &
+opt /sys/devices/system/cpu/sched_smt_power_savings 1
+opt /sys/devices/system/cpu/sched_mc_power_savings 1
+for i in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do opt $1 powersave; done
 
 # aspm
-echo powersave > /sys/module/pcie_aspm/parameters/policy &
+opt /sys/module/pcie_aspm/parameters/policy powersave
 
 # kernel write mode
-echo 2 > /proc/sys/vm/laptop_mode &
-echo 60 > /proc/sys/vm/dirty_ratio &
-echo 40 > /proc/sys/vm/dirty_background_ratio &
-echo 60000 > /proc/sys/vm/dirty_expire_centisecs &
-echo 60000 > /proc/sys/vm/dirty_writeback_centisecs &
+opt /proc/sys/vm/laptop_mode 2
+opt /proc/sys/vm/dirty_ratio 60
+opt /proc/sys/vm/dirty_background_ratio 40
+opt /proc/sys/vm/dirty_expire_centisecs 60000
+opt /proc/sys/vm/dirty_writeback_centisecs 60000
 
 # remount noatime
-for dev in $(awk '/^\/dev\/sd/ {print $1}' /etc/mtab); do mount -o remount,noatime,commit=600 $dev; done &
+for dev in $(awk '/^\/dev\/sd/ {print $1}' /etc/mtab); do try "mount -o remount,noatime,commit=600 $dev"; done
 
 # Disk powersave
-for dev in $(awk '/^\/dev\/sd/ {print $1}' /etc/mtab); do hdparm -S 6 -B 1 -a 2048 $dev; done &
-for i in /sys/class/scsi_host/host*/link_power_management_policy; do echo min_power > $i; done &
+for dev in $(awk '/^\/dev\/sd/ {print $1}' /etc/mtab); do try "hdparm -S 6 -B 1 -a 2048 $dev"; done
+for i in /sys/class/scsi_host/host*/link_power_management_policy; do opt $i min_power; done
 
 # Sound card powersave
-echo 1 > /sys/module/snd_hda_intel/parameters/power_save &
-echo Y > /sys/module/snd_hda_intel/parameters/power_save_controller &
-[[ -e /sys/module/snd_ac97_codec/parameters/power_save ]] && echo 1 > /sys/module/snd_ac97_codec/parameters/power_save &
+opt /sys/module/snd_hda_intel/parameters/power_save 1
+opt /sys/module/snd_hda_intel/parameters/power_save_controller Y
+opt /sys/module/snd_ac97_codec/parameters/power_save 1
 
 # Disable webcam
-modprobe -r uvcvideo &
+try "modprobe -r uvcvideo"
 
 # Disable bluetooth
-modprobe -r btusb &
-(sleep 1s && modprobe -r bluetooth) &
+try "modprobe -r btusb"
+sleep 1s && try "modprobe -r bluetooth"
 
 # wlan0/eth0 powersave
-iwconfig wlan0 power on &
+try "iwconfig wlan0 power on"
 
 # Screen powersave
-for i in /sys/class/backlight/acpi_video*/brightness; do echo 0 > $i; done &
-echo 1 > /sys/module/i915/parameters/i915_enable_rc6 &
+for i in /sys/class/backlight/acpi_video*/brightness; do opt $i 0; done
+opt /sys/module/i915/parameters/i915_enable_rc6 1
