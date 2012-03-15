@@ -2,13 +2,13 @@
 
 # turn on kernel options
 opt() {
-  echo $2 > $1 &> /dev/null &
-  [[ $? != 0 ]] && echo "option $1 is not avail"
+  echo $2 | tee $1 &> /dev/null
+  [[ $? != 0 ]] && echo "[powerdown] unavail option: $1"
 }
 
 try() {
-  $1 &> /dev/null &
-  [[ $? != 0 ]] && echo "fail to run $1"
+  $1 &> /dev/null
+  [[ $? != 0 ]] && echo "[powerdown] cannot run: $1"
 }
 
 # nmi_watchdog
@@ -46,7 +46,7 @@ try "modprobe -r uvcvideo"
 
 # Disable bluetooth
 try "modprobe -r btusb"
-sleep 1s && try "modprobe -r bluetooth"
+try "modprobe -r bluetooth"
 
 # wlan0/eth0 powersave
 try "iwconfig wlan0 power on"
