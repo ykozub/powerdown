@@ -12,7 +12,7 @@ try() {
 }
 
 # nmi_watchdog
-opt /proc/sys/kernel/nmi_watchdog 1
+opt /proc/sys/kernel/nmi_watchdog 0
 
 # cpu
 opt /sys/devices/system/cpu/sched_smt_power_savings 1
