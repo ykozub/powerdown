@@ -11,6 +11,9 @@ try() {
   [[ $? != 0 ]] && echo "[powerdown] cannot run: $1"
 }
 
+# bus
+for i in /sys/bus/*/devices/*/power/control; do opt $i auto; done
+
 # nmi_watchdog
 opt /proc/sys/kernel/nmi_watchdog 0
 
@@ -26,11 +29,11 @@ opt /sys/module/pcie_aspm/parameters/policy powersave
 opt /proc/sys/vm/laptop_mode 2
 opt /proc/sys/vm/dirty_ratio 60
 opt /proc/sys/vm/dirty_background_ratio 40
-opt /proc/sys/vm/dirty_expire_centisecs 60000
-opt /proc/sys/vm/dirty_writeback_centisecs 60000
+opt /proc/sys/vm/dirty_expire_centisecs 1500
+opt /proc/sys/vm/dirty_writeback_centisecs 1500
 
 # remount noatime
-for dev in $(awk '/^\/dev\/sd/ {print $1}' /etc/mtab); do try "mount -o remount,noatime,commit=600 $dev"; done
+for dev in $(awk '/^\/dev\/sd/ {print $1}' /etc/mtab); do try "mount -o remount,noatime $dev"; done
 
 # Disk powersave
 for dev in $(awk '/^\/dev\/sd/ {print $1}' /etc/mtab); do try "hdparm -S 6 -B 1 -a 2048 $dev"; done
