@@ -3,7 +3,7 @@
 
 # turn on kernel options
 opt() {
-  echo "$2">"$1" 2>/dev/null
+  echo $2 | tee $1 &>/dev/null
   [[ $? != 0 ]] && echo "[powerdown] cannot write $2 to $1"
 }
 
