@@ -1,14 +1,15 @@
+# powerdown - powersave script
 # please use this with xset dpms, hdparm
 
 # turn on kernel options
 opt() {
-  echo $2 | tee $1 &> /dev/null
-  [[ $? != 0 ]] && echo "[powerdown] unavail option: $1"
+  echo "$2">"$1" 2>/dev/null
+  [[ $? != 0 ]] && echo "[powerdown] cannot write $2 to $1"
 }
 
 try() {
   $1 &> /dev/null
-  [[ $? != 0 ]] && echo "[powerdown] cannot run: $1"
+  [[ $? != 0 ]] && echo "[powerdown] cannot run $1"
 }
 
 # bus
@@ -60,3 +61,5 @@ try "iwconfig wlan0 power on"
 # Screen powersave
 for i in /sys/class/backlight/acpi_video*/brightness; do opt $i 0; done
 opt /sys/module/i915/parameters/i915_enable_rc6 1
+opt /sys/module/i915/parameters/i915_enable_fbc 1
+opt /sys/module/i915/parameters/lvds_downclock 1

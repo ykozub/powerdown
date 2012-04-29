@@ -1,0 +1,8 @@
+# powerdown - get energy usage
+# get current power usage
+current_power() {
+	mWh=$(($(cat /sys/class/power_supply/BAT0/power_now)/1000))
+	echo "[powerdown] $1 using $mWh mWh"
+}
+
+current_power
