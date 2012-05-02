@@ -50,6 +50,7 @@ opt /sys/module/snd_ac97_codec/parameters/power_save 1
 
 # Disable webcam
 try "modprobe -r uvcvideo"
+try "modprobe -r videodev"
 
 # Disable bluetooth
 try "modprobe -r btusb"
