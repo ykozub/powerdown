@@ -48,6 +48,13 @@ opt /sys/module/snd_hda_intel/parameters/power_save 1
 opt /sys/module/snd_hda_intel/parameters/power_save_controller Y
 opt /sys/module/snd_ac97_codec/parameters/power_save 1
 
+# wlan0/eth0 powersave
+try "iwconfig wlan0 power on"
+
+# Screen powersave
+for i in /sys/class/backlight/acpi_video*/brightness; do opt $i 0; done
+opt /sys/module/i915/parameters/i915_enable_rc6 1
+
 # Disable webcam
 try "modprobe -r uvcvideo"
 try "modprobe -r videodev"
@@ -55,10 +62,3 @@ try "modprobe -r videodev"
 # Disable bluetooth
 try "modprobe -r btusb"
 try "modprobe -r bluetooth"
-
-# wlan0/eth0 powersave
-try "iwconfig wlan0 power on"
-
-# Screen powersave
-for i in /sys/class/backlight/acpi_video*/brightness; do opt $i 0; done
-opt /sys/module/i915/parameters/i915_enable_rc6 1
