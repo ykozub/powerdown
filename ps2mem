@@ -2,4 +2,5 @@
 modprobe -r ehci_hcd
 echo mem > /sys/power/state
 modprobe ehci_hcd
-powerdown
+# turn off ehci_hcd depend
+modprobe -r uvcvideo videodev btusb bluetooth
