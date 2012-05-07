@@ -9,7 +9,7 @@ opt() {
 
 # unload kernel module
 unload() {
-  modprobe -r -w $1 &>/dev/null
+  rmmod -w $1 &>/dev/null
   [[ $? != 0 ]] && echo "[powerdown] cannot unload module $1"
 }
 
