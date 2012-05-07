@@ -1,5 +1,5 @@
 # powerdown - suspend to mem
-modprobe -r ehci_hcd
+modprobe -r -w ehci_hcd
 echo mem > /sys/power/state
 modprobe ehci_hcd
 # turn off ehci_hcd depend
