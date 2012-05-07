@@ -4,12 +4,19 @@
 # turn on kernel options
 opt() {
   echo $2 | tee $1 &>/dev/null
-  [[ $? != 0 ]] && echo "[powerdown] cannot enable powersave $1"
+  [[ $? != 0 ]] && echo "[powerdown] cannot enable option $1"
 }
 
-try() {
-  $1 &> /dev/null
-  [[ $? != 0 ]] && echo "[powerdown] cannot run $1"
+# unload kernel module
+unload() {
+  modprobe -r -w $1 &>/dev/null
+  [[ $? != 0 ]] && echo "[powerdown] cannot unload module $1"
+}
+
+# command
+run() {
+  $@ &> /dev/null
+  [[ $? != 0 ]] && echo "[powerdown] cannot run $@"
 }
 
 # bus
@@ -37,10 +44,10 @@ opt /proc/sys/vm/dirty_expire_centisecs 1500
 opt /proc/sys/vm/dirty_writeback_centisecs 1500
 
 # remount noatime
-for dev in $(awk '/^\/dev\/sd/ {print $1}' /etc/mtab); do try "mount -o remount,noatime $dev"; done
+for dev in $(awk '/^\/dev\/sd/ {print $1}' /etc/mtab); do run mount -o remount,noatime $dev; done
 
 # Disk powersave
-for dev in $(awk '/^\/dev\/sd/ {print $1}' /etc/mtab); do try "hdparm -S 6 -B 1 -a 2048 $dev"; done
+for dev in $(awk '/^\/dev\/sd/ {print $1}' /etc/mtab); do run hdparm -S 6 -B 1 -a 2048 $dev; done
 for i in /sys/class/scsi_host/host*/link_power_management_policy; do opt $i min_power; done
 
 # Sound card powersave
@@ -49,17 +56,17 @@ opt /sys/module/snd_hda_intel/parameters/power_save_controller Y
 opt /sys/module/snd_ac97_codec/parameters/power_save 1
 
 # wlan0/eth0 powersave
-try "iwconfig wlan0 power on"
+run iwconfig wlan0 power on
 
 # Screen powersave
 for i in /sys/class/backlight/acpi_video*/brightness; do opt $i 0; done
 #opt /sys/module/i915/parameters/i915_enable_rc6 1  # read-only
 
 # Disable webcam
-try "modprobe -r uvcvideo"
-try "modprobe -r videodev"
+unload uvcvideo
+unload videodev
 
 # Disable bluetooth
-try "modprobe -r btusb"
-try "modprobe -r bluetooth"
+unload btusb
+unload bluetooth
 
