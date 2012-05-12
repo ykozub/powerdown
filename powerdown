@@ -1,23 +1,7 @@
 # powerdown - powersave script
 # please use this with xset dpms, hdparm
 
-# turn on kernel options
-opt() {
-  echo $2 | tee $1 &>/dev/null
-  [[ $? != 0 ]] && echo "[powerdown] cannot enable option $1"
-}
-
-# unload kernel module
-unload() {
-  rmmod -w $1 &>/dev/null
-  [[ $? != 0 ]] && echo "[powerdown] cannot unload module $1"
-}
-
-# command
-run() {
-  $@ &> /dev/null
-  [[ $? != 0 ]] && echo "[powerdown] cannot run $@"
-}
+source /usr/lib/powerdown-utils
 
 # bus
 for i in /sys/bus/*/devices/*/power/control; do opt $i auto; done
@@ -40,8 +24,8 @@ opt /sys/module/pcie_aspm/parameters/policy powersave
 opt /proc/sys/vm/laptop_mode 2
 opt /proc/sys/vm/dirty_ratio 90
 opt /proc/sys/vm/dirty_background_ratio 1
-opt /proc/sys/vm/dirty_expire_centisecs 1500
-opt /proc/sys/vm/dirty_writeback_centisecs 1500
+opt /proc/sys/vm/dirty_expire_centisecs 60000
+opt /proc/sys/vm/dirty_writeback_centisecs 60000
 
 # remount noatime
 for dev in $(awk '/^\/dev\/sd/ {print $1}' /etc/mtab); do run mount -o remount,noatime $dev; done

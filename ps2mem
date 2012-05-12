@@ -1,6 +1,8 @@
 # powerdown - suspend to mem
-rmmod -w ehci_hcd &>/dev/null
-echo mem > /sys/power/state
-modprobe ehci_hcd &>/dev/null
+source /usr/lib/powerdown-utils
+
+unload ehci_hcd
+opt /sys/power/state mem
+load ehci_hcd
 # turn off ehci_hcd depend
 powerdown

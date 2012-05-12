@@ -1,3 +1,5 @@
 # powerdown - poweroff
-modprobe -r ehci_hcd
+source /usr/lib/powerdown-utils
+
+unload ehci_hcd
 poweroff

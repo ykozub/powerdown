@@ -1,0 +1,25 @@
+# powerdown-utils
+
+# turn on kernel options
+opt() {
+  echo $2 | tee $1 &>/dev/null
+  [[ $? != 0 ]] && echo "[powerdown] cannot enable option $1"
+}
+
+# unload kernel module
+unload() {
+  rmmod -w $1 &>/dev/null
+  [[ $? != 0 ]] && echo "[powerdown] cannot unload module $1"
+}
+
+# load kernel module
+load() {
+  modprobe $1 &>/dev/null
+  [[ $? != 0 ]] && echo "[powerdown] cannot load module $1"
+}
+
+# command
+run() {
+  $@ &> /dev/null
+  [[ $? != 0 ]] && echo "[powerdown] cannot run $@"
+}
