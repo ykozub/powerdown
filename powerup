@@ -16,7 +16,6 @@ opt /proc/sys/vm/dirty_expire_centisecs 600
 opt /proc/sys/vm/dirty_writeback_centisecs 600
 
 # Disk powersave
-for dev in $(awk '/^\/dev\/sd/ {print $1}' /etc/mtab); do run hdparm -S 0 -B 254 -a 128 $dev; done
 for i in /sys/class/scsi_host/host*/link_power_management_policy; do opt $i max_performance; done
 
 # wlan0/eth0 powersave
