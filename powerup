@@ -11,7 +11,6 @@ for i in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do opt $i perfor
 # kernel write mode
 opt /proc/sys/vm/laptop_mode 0
 opt /proc/sys/vm/dirty_ratio 30
-opt /proc/sys/vm/dirty_background_ratio 30
 opt /proc/sys/vm/dirty_expire_centisecs 600
 opt /proc/sys/vm/dirty_writeback_centisecs 600
 
