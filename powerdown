@@ -21,7 +21,7 @@ opt /sys/module/pcie_aspm/parameters/policy powersave
 # kernel write mode
 opt /proc/sys/vm/laptop_mode 5
 opt /proc/sys/vm/dirty_ratio 90
-opt /proc/sys/vm/dirty_background_ratio 50
+opt /proc/sys/vm/dirty_background_ratio 1
 opt /proc/sys/vm/dirty_expire_centisecs 60000
 opt /proc/sys/vm/dirty_writeback_centisecs 60000
 
