@@ -2,20 +2,17 @@
 
 # turn on kernel options
 opt() {
-  [[ -f $1 ]] && echo $2 | tee $1 &>/dev/null
-  [[ $? != 0 ]] && echo "[powerdown] cannot enable option $1"
+  [[ -f $1 ]] && echo $2 | tee $1 &>/dev/null || echo "[powerdown] cannot enable option $1"
 }
 
 # unload kernel module
 unload() {
-  modinfo $1 &>/dev/null && rmmod -w $1 &>/dev/null
-  [[ $? != 0 ]] && echo "[powerdown] cannot unload module $1"
+  modinfo $1 &>/dev/null && rmmod -w $1 &>/dev/null || echo "[powerdown] cannot unload module $1"
 }
 
 # load kernel module
 load() {
-  modinfo $1 &>/dev/null && modprobe $1 &>/dev/null
-  [[ $? != 0 ]] && echo "[powerdown] cannot load module $1"
+  modinfo $1 &>/dev/null && modprobe $1 &>/dev/null || echo "[powerdown] cannot load module $1"
 }
 
 # command
