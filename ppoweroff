@@ -1,5 +1,0 @@
-# powerdown - poweroff
-source /usr/lib/powerdown-utils
-
-unload ehci_hcd
-poweroff
