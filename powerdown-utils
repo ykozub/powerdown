@@ -10,6 +10,7 @@ opt() {
 # unload kernel module
 unload() {
   modinfo $1 &>/dev/null || return
+  [[ $(lsmod | grep $1) == "" ]] && return
   rmmod -w $1 &>/dev/null
   [[ $? != 0 ]] && echo "[powerdown] cannot unload module $1"
 }
@@ -17,6 +18,7 @@ unload() {
 # load kernel module
 load() {
   modinfo $1 &>/dev/null || return
+  [[ $(lsmod | grep $1) == "" ]] || return
   modprobe $1 &>/dev/null
   [[ $? != 0 ]] && echo "[powerdown] cannot load module $1"
 }
