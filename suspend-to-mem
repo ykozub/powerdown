@@ -1,1 +1,13 @@
+source /usr/lib/powerdown-utils
+
+# unbind
+opt /sys/bus/pci/drivers/ehci_hcd/unbind 0000:00:1a.0
+opt /sys/bus/pci/drivers/ehci_hcd/unbind 0000:00:1d.0
+opt /sys/bus/pci/drivers/xhci_hcd/unbind 0000:07:00.0
+
 echo mem > /sys/power/state
+
+# bind
+opt /sys/bus/pci/drivers/ehci_hcd/bind 0000:00:1a.0
+opt /sys/bus/pci/drivers/ehci_hcd/bind 0000:00:1d.0
+opt /sys/bus/pci/drivers/xhci_hcd/bind 0000:07:00.0
