@@ -3,7 +3,8 @@
 # turn on kernel options
 opt() {
   [[ -f $1 ]] || return
-  [[ $(cat $1) == *$2* ]] && return || echo $1
+  # for disable cpu
+  [[ $(cat $1) == $2 && $1 == /sys/devices/system/cpu/cpu*/online ]] && return
   echo $2 | tee $1 &>/dev/null || echo "[powerdown] cannot write $2 to $1"
 }
 
