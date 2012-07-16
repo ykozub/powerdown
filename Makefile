@@ -1,5 +1,5 @@
 install:
-	install -D powerdown-utils $(DESTDIR)/usr/lib/powerdown-utils
+	install -D powerdown-functions $(DESTDIR)/usr/lib/powerdown-functions
 	install -D powerdown $(DESTDIR)/usr/bin/powerdown
 	install -D powerup $(DESTDIR)/usr/bin/powerup
 	install -D powernow $(DESTDIR)/usr/bin/powernow

@@ -3,6 +3,7 @@
 # turn on kernel options
 opt() {
   [[ -f $1 ]] || return
+  [[ $(cat $1) == *$2* ]] && return || echo $1
   echo $2 | tee $1 &>/dev/null || echo "[powerdown] cannot write $2 to $1"
 }
 

@@ -1,6 +1,6 @@
 # powerdown - powerup
 
-source /usr/lib/powerdown-utils
+source /usr/lib/powerdown-functions
 
 # usb autosuspend
 for i in /sys/bus/usb/devices/*/power/autosuspend; do opt $i 600; done

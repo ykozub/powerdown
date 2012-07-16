@@ -1,4 +1,4 @@
-source /usr/lib/powerdown-utils
+source /usr/lib/powerdown-functions
 
 # unbind
 opt /sys/bus/pci/drivers/ehci_hcd/unbind 0000:00:1a.0

@@ -1,7 +1,7 @@
 # powerdown - powersave script
 # please use this with xset dpms, hdparm
 
-source /usr/lib/powerdown-utils
+source /usr/lib/powerdown-functions
 
 # bus
 for i in /sys/bus/*/devices/*/power/control; do opt $i auto; done
