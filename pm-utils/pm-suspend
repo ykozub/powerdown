@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+echo "System suspend..."
+
+suspend-to-mem
+
+echo "System resume..."

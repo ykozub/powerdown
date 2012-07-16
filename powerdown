@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # powerdown - powersave script
 # please use this with xset dpms, hdparm
 

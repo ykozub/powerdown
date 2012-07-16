@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # powerdown - powerup
 
 source /usr/lib/powerdown-functions

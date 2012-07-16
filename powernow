@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # powerdown - get energy usage
 # get current power usage
 current_power() {
