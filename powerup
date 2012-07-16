@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 # powerdown - powerup
 
+if [[ $EUID != 0 ]]; then
+  echo "[powerdown] must be run as root"
+  exit 1
+fi
+
 source /usr/lib/powerdown-functions
 
 # usb autosuspend
