@@ -32,7 +32,8 @@ for i in /sys/class/backlight/acpi_video*/brightness; do opt $i 10; done
 
 # Disable webcam
 load uvcvideo
-load videodev
+#load videodev
+load nouveau
 
 # Disable bluetooth
 load btusb

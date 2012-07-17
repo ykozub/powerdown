@@ -59,7 +59,7 @@ display_readahead() {
 display_module() {
   has $1 || return
   echo -n "[powerdown] $1 "
-  loaded && echo "loaded" || echo "not loaded"
+  loaded $1 && echo "loaded" || echo "not loaded"
 }
 
 display_wireless() {
