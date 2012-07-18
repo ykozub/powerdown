@@ -3,15 +3,8 @@
 
 # turn on kernel options
 opt() {
-  [[ -w $1 ]] || return
-  # for disable cpu
-  [[ $(cat $1) == $2 && $1 == /sys/devices/system/cpu/cpu*/online ]] && return
+  [[ -w $1 && -r $1 ]] || return
   echo $2 | tee $1 &>/dev/null || echo "[powerdown] cannot write $2 to $1"
-}
-
-check () {
-  [[ -r $1 ]] || return
-  echo "[powerdown] $1: $(cat $1)"
 }
 
 # unload kernel module
@@ -52,17 +45,33 @@ display_power() {
 
 # get readahead
 display_readahead() {
-  echo "[powerdown] $1 readahead: $(blockdev --getra $1)"
+  echo " - $1 readahead: $(blockdev --getra $1)"
 }
 
+check () {
+  [[ -w $1 && -r $1 ]] || return
+  echo " - $1: $(cat $1)"
+}
 
 display_module() {
   has $1 || return
-  echo -n "[powerdown] $1 "
+  echo -n " - $1 "
   loaded $1 && echo "loaded" || echo "not loaded"
 }
 
 display_wireless() {
   control=$(iwconfig $1 | grep "Power Management" | cut -d : -f 2)
-  echo "[powerdown] $1 power management: $control"
+  echo " - $1 power management: $control"
+}
+
+hibernate_offset() {
+  filefrag -v /hibernate | awk '{print $3}' | awk 'NR==4'
+}
+
+root_partion() {
+  df / | awk '{print $1}' | awk 'NR==2'
+}
+
+resume_boot_option() {
+  echo "'resume=$(root_partion) resume_offset=$(hibernate_offset)'"
 }

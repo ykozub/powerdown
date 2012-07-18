@@ -2,13 +2,13 @@
 
 case "$@" in
   true)
-	  powerdown
-	  ;;
+    powerdown
+    ;;
   false)
-	  powerup
-	  ;;
+    powerup
+    ;;
   *)
-	  echo "[powerdown] pm-is-supported [ true | false ]"
-	  exit 1;
-	  ;;
+    echo "[powerdown] pm-is-supported [ true | false ]"
+    exit 1;
+    ;;
 esac

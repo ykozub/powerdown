@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+if [[ $EUID != 0 ]]; then
+  echo "[powerdown] must be run as root"
+  exit 1
+fi
+
+source /usr/lib/powerdown-functions
+
+if [[ ! -f /hibernate ]]; then
+    echo "[powerdown] your first time to use powerdown hibernate"
+    echo "creating 1GB /hibernate"
+    dd if=/dev/zero of=/hibernate bs=2M count=1024
+    chmod 600 /hibernate
+    mkswap /hibernate
+    swapon /hibernate
+
+    echo "adding /hibernate to /etc/fstab"
+    echo "/hibernate none swap sw 0 0" >> /etc/fstab
+    echo
+    echo "1. Please add $(resume_boot_option) to the bootmenu"
+    echo
+    echo "2. Please add resume hook to /etc/mkinitcpio.conf right in front of filesystem hook"
+    echo "Run mkinitcpio -p linux to regenerate kernel image"
+    echo
+    echo "3. If you have not done so, suspend-to-disk WILL NOT WORK"
+
+    exit 1
+fi
+
+echo "[powerdown] /hibernate: $(resume_boot_option)"
+echo "Hibernate and resume will take a long time. Have a cup of coffee..."
+sleep 10
+
+usb-unbind
+
+echo disk > /sys/power/state
+
+usb-bind

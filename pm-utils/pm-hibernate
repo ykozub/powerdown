@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+echo "System hibernate..."
+
+suspend-to-disk
+
+echo "System resume..."

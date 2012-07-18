@@ -10,7 +10,7 @@ source /usr/lib/powerdown-functions
 
 display_power
 echo
-echo "Detail:"
+echo " Detail:"
 
 # nmi_watchdog
 check /proc/sys/kernel/nmi_watchdog
