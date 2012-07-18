@@ -31,7 +31,7 @@ fi
 echo "[powerdown] /hibernate: $(resume_boot_option)"
 echo
 echo "Hibernate and resume will take a long time. Have a cup of coffee..."
-sleep 10
+sleep 1
 
 usb-unbind
 
