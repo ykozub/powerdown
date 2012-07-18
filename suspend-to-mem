@@ -5,6 +5,7 @@ if [[ $EUID != 0 ]]; then
   exit 1
 fi
 
+sync
 usb-unbind
 
 echo mem > /sys/power/state
