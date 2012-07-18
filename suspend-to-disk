@@ -33,6 +33,7 @@ echo
 echo "Hibernate and resume will take a long time. Have a cup of coffee..."
 
 sync
+opt /proc/sys/vm/drop_caches 3
 
 usb-unbind
 
