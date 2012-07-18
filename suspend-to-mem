@@ -5,6 +5,8 @@ if [[ $EUID != 0 ]]; then
   exit 1
 fi
 
+source /usr/lib/powerdown-functions
+
 sync
 opt /proc/sys/vm/drop_caches 3
 
