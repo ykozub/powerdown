@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# powerdown-utils
+# powerdown-functions
 
 # turn on kernel options
 opt() {
@@ -39,8 +39,14 @@ run() {
 
 # get current power usage
 display_power() {
-  mWh=$(($(cat /sys/class/power_supply/BAT0/power_now)/1000))
-  echo "[powerdown] using $mWh mWh"
+  for bat in /sys/class/power_supply/BAT*; do
+    if [[ -f $bat/power_now ]]; then
+      watt=$(echo "scale=3;$(cat $bat/power_now)/1000000" | bc)
+    else	
+      watt=$(echo "scale=3;$(cat $bat/current_now)*$(cat $bat/voltage_now)/1000000" | bc)
+    fi
+    echo "[powerdown] $bat using $watt watts"
+  done
 }
 
 # get readahead

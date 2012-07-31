@@ -20,7 +20,7 @@ opt /proc/sys/kernel/nmi_watchdog 0
 
 # cpu
 for i in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do opt $i powersave; done
-for i in /sys/devices/system/cpu/cpu*/online; do opt $i 0; done
+# for i in /sys/devices/system/cpu/cpu*/online; do opt $i 0; done
 
 # aspm
 opt /sys/module/pcie_aspm/parameters/policy powersave
@@ -36,6 +36,7 @@ opt /proc/sys/vm/dirty_writeback_centisecs 60000
 for dev in $(awk '/^\/dev\/sd/ {print $1}' /etc/mtab); do run mount -o remount,noatime $dev; done
 
 # Disk powersave
+for dev in $(awk '/^\/dev\/sd/ {print $1}' /etc/mtab); do run hdparm -B 1 -S 60 $dev; done
 for dev in $(awk '/^\/dev\/sd/ {print $1}' /etc/mtab); do run blockdev --setra 4096 $dev; done
 for i in /sys/class/scsi_host/host*/link_power_management_policy; do opt $i min_power; done
 
