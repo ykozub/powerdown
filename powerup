@@ -29,7 +29,7 @@ for i in /sys/class/scsi_host/host*/link_power_management_policy; do opt $i max_
 run iwconfig wlan0 power off
 
 # Screen powersave
-for i in /sys/class/backlight/acpi_video*/brightness; do opt $i 10; done
+for i in /sys/class/backlight/acpi_video*/brightness; do opt $i 5; done
 
 # Disable webcam
 load uvcvideo

@@ -43,31 +43,32 @@ display_power() {
     if [[ -f $bat/power_now ]]; then
       watt=$(echo "scale=3;$(cat $bat/power_now)/1000000" | bc)
     else	
-      watt=$(echo "scale=3;$(cat $bat/current_now)*$(cat $bat/voltage_now)/1000000" | bc)
+      watt=$(echo "scale=3;$(cat $bat/current_now)/1000000" | bc)
     fi
-    echo "[powerdown] $bat using $watt watts"
+	echo "[powerdown] $(basename $bat) using $watt watts"
+	acpi
   done
 }
 
 # get readahead
 display_readahead() {
-  echo " - $1 readahead: $(blockdev --getra $1)"
+  echo " -> $1 readahead: $(blockdev --getra $1)"
 }
 
 check () {
   [[ -w $1 && -r $1 ]] || return
-  echo " - $1: $(cat $1)"
+  echo " -> $1: $(cat $1)"
 }
 
 display_module() {
   has $1 || return
-  echo -n " - $1 "
+  echo -n " -> $1 "
   loaded $1 && echo "loaded" || echo "not loaded"
 }
 
 display_wireless() {
   control=$(iwconfig $1 | grep "Power Management" | cut -d : -f 2)
-  echo " - $1 power management: $control"
+  echo " -> $1 power management: $control"
 }
 
 hibernate_offset() {
