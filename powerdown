@@ -35,8 +35,8 @@ opt /proc/sys/vm/dirty_writeback_centisecs 60000
 # Disk powersave
 for dev in $(awk '/^\/dev\/sd/ {print $1}' /etc/mtab); do run mount -o remount,noatime $dev; done
 for dev in $(awk '/^\/dev\/sd/ {print $1}' /etc/mtab); do run blockdev --setra 4096 $dev; done
-for dev in $(awk '/^\/dev\/sd/ {print $1}' /etc/mtab); do run hdparm -B 1 -S 12 $dev; done
 for i in /sys/class/scsi_host/host*/link_power_management_policy; do opt $i min_power; done
+for dev in $(awk '/^\/dev\/sd/ {print $1}' /etc/mtab); do run hdparm -B 1 -S 12 $dev; done
 
 # Sound card powersave
 opt /sys/module/snd_hda_intel/parameters/power_save 1

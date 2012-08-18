@@ -46,8 +46,11 @@ display_power() {
       watt=$(echo "scale=3;$(cat $bat/current_now)/1000000" | bc)
     fi
 	echo "[powerdown] $(basename $bat) using $watt watts"
-	acpi
+
   done
+  if [[ -f /usr/bin/acpi ]]; then
+    acpi
+  fi
 }
 
 # get readahead
