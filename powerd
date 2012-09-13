@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# powerd - simple daemon
+
+if [[ $EUID != 0 ]]; then
+  echo "[powerdown] must be run as root"
+  exit 1
+fi
+
+if [[ ! -f /sys/class/power_supply/AC0/online ]]; then
+  echo "cannot detect battery or ac"
+  exit 1
+fi
+
+trap "echo 'stop powerd...'; powerup &>/dev/null; exit 0" SIGINT SIGTERM
+
+echo "start powerd..."
+
+while true; do
+    if [[ $(cat /sys/class/power_supply/AC0/online) == 1 ]]; then
+        echo "using AC, performance mode"
+        powerup &>/dev/null
+    else
+        echo "using BAT, powersave mode"
+        powerdown &>/dev/null
+    fi
+
+    sleep 10
+done
