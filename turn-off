@@ -5,11 +5,5 @@ if [[ $EUID != 0 ]]; then
   exit 1
 fi
 
-source /usr/lib/powerdown-functions
-
-# unbind
-opt /sys/bus/pci/drivers/ehci_hcd/unbind 0000:00:1a.0
-opt /sys/bus/pci/drivers/ehci_hcd/unbind 0000:00:1d.0
-opt /sys/bus/pci/drivers/xhci_hcd/unbind 0000:07:00.0
-
+usb-unbind
 poweroff
