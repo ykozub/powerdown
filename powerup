@@ -32,11 +32,11 @@ run iwconfig wlan0 power off
 for i in /sys/class/backlight/acpi_video*/brightness; do opt $i 5; done
 
 # Disable webcam
-load uvcvideo
-#load videodev
-load nouveau
+load_mod uvcvideo
+#load_mod videodev
+load_mod nouveau
 
 # Disable bluetooth
-load btusb
-load bluetooth
+load_mod btusb
+load_mod bluetooth
 

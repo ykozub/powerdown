@@ -16,13 +16,17 @@ trap "echo 'stop powerd...'; powerup &>/dev/null; exit 0" SIGINT SIGTERM
 echo "start powerd..."
 
 while true; do
-    if [[ $(cat /sys/class/power_supply/AC0/online) == 1 ]]; then
-        echo "using AC, performance mode"
-        powerup &>/dev/null
-    else
-        echo "using BAT, powersave mode"
-        powerdown &>/dev/null
+    new=$(cat /sys/class/power_supply/AC0/online)
+    if [[ $old != $new ]]; then
+        if [[ $new == 1 ]]; then
+            echo "using AC, performance mode"
+            powerup &>/dev/null
+        else
+            echo "using BAT, powersave mode"
+            powerdown &>/dev/null
+        fi
     fi
+    old=$new
 
     sleep 10
 done
