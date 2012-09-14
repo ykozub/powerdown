@@ -11,8 +11,7 @@ if [[ ! -f /sys/class/power_supply/AC0/online ]]; then
   exit 1
 fi
 
-trap "echo 'powerd got SIGINT...'; powerup &>/dev/null; exit 0" SIGINT
-trap "echo 'powerd got SIGTERM...'; usb-unbind; exit 0" SIGTERM
+trap "echo 'powerd got SIGINT...'; usb-unbind; exit 0" SIGINT
 
 echo "start powerd..."
 
