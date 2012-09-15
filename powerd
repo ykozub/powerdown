@@ -6,9 +6,13 @@ if [[ $EUID != 0 ]]; then
   exit 1
 fi
 
-if [[ ! -f /sys/class/power_supply/AC0/online ]]; then
-  echo "cannot detect battery or ac"
-  exit 1
+if [[ -f /sys/class/power_supply/AC0/online ]]; then
+    AC_PATH=/sys/class/power_supply/AC0/online
+elif [[ -f /sys/class/power_supply/AC/online ]]; then
+    AC_PATH=/sys/class/power_supply/AC/online
+else
+    echo "cannot detect battery or ac"
+    exit 1
 fi
 
 trap "echo 'powerd got SIGINT...'; usb-unbind; exit 0" SIGINT
@@ -16,7 +20,7 @@ trap "echo 'powerd got SIGINT...'; usb-unbind; exit 0" SIGINT
 echo "start powerd..."
 
 while true; do
-    new=$(cat /sys/class/power_supply/AC0/online)
+    new=$(cat $AC_PATH)
     if [[ $old != $new ]]; then
         if [[ $new == 1 ]]; then
             echo "using AC, performance mode"
