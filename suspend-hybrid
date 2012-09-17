@@ -5,10 +5,15 @@ if [[ $EUID != 0 ]]; then
   exit 1
 fi
 
+if [[ ! -f /hibernate ]]; then
+  echo "[powerdown] hibernate is not ready yet"
+  exit 1
+fi
+
 source /usr/lib/powerdown-functions
 
 sync
 opt /proc/sys/vm/drop_caches 3
 
-echo mem > /sys/power/state
-
+rtcwake -u -m mem -s 1800
+suspend-to-disk

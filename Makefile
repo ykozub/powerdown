@@ -5,9 +5,7 @@ install:
 	install -D powernow $(DESTDIR)/usr/bin/powernow
 	install -D suspend-to-mem $(DESTDIR)/usr/bin/suspend-to-mem
 	install -D suspend-to-disk $(DESTDIR)/usr/bin/suspend-to-disk
-	install -D turn-off $(DESTDIR)/usr/bin/turn-off
-	install -D usb-bind $(DESTDIR)/usr/bin/usb-bind
-	install -D usb-unbind $(DESTDIR)/usr/bin/usb-unbind
+	install -D suspend-hybrid $(DESTDIR)/usr/bin/suspend-hybrid
 	install -D pm-utils/pm-is-supported $(DESTDIR)/usr/bin/pm-is-supported
 	install -D pm-utils/pm-powersave $(DESTDIR)/usr/sbin/pm-powersave
 	install -D pm-utils/pm-suspend $(DESTDIR)/usr/sbin/pm-suspend

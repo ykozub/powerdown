@@ -15,7 +15,7 @@ else
     exit 1
 fi
 
-trap "echo 'powerd got SIGINT...'; usb-unbind; exit 0" SIGINT
+trap "echo 'stop powerd...'; powerup; exit 0" SIGINT
 
 echo "start powerd..."
 
