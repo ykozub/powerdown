@@ -15,6 +15,9 @@ source /usr/lib/powerdown-functions
 sync
 opt /proc/sys/vm/drop_caches 3
 
+intv=600
 # after 10 minutes, it will wake up and go to hibernate mode
-rtcwake -u -m mem -s 600
-suspend-to-disk
+now=$(date -u +%s)
+rtcwake -u -m mem -s $intv
+diff=$(($(date -u +%s) - $now))
+(( $diff >= $intv )) && suspend-to-disk
