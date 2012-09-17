@@ -15,5 +15,6 @@ source /usr/lib/powerdown-functions
 sync
 opt /proc/sys/vm/drop_caches 3
 
-rtcwake -u -m mem -s 1800
+# after 10 minutes, it will wake up and go to hibernate mode
+rtcwake -u -m mem -s 600
 suspend-to-disk
