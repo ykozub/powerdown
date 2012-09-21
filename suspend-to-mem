@@ -10,5 +10,5 @@ source /usr/lib/powerdown-functions
 sync
 opt /proc/sys/vm/drop_caches 3
 
-echo mem > /sys/power/state
+opt /sys/power/state mem
 

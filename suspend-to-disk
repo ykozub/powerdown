@@ -33,5 +33,5 @@ swapon /hibernate
 sync
 opt /proc/sys/vm/drop_caches 3
 
-echo disk > /sys/power/state
+opt /sys/power/state disk
 swapoff /hibernate
