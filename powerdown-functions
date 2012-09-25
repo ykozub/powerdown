@@ -39,6 +39,10 @@ run() {
 
 # get current power usage
 display_power() {
+  if [[ $(find /sys/class/power_supply -name BAT*) == "" ]]; then
+    echo "[powerdown] no battery"
+    return
+  fi
   for bat in /sys/class/power_supply/BAT*; do
     if [[ -f $bat/power_now ]]; then
       watt=$(echo "scale=3;$(cat $bat/power_now)/1000000" | bc)
