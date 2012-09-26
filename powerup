@@ -26,7 +26,7 @@ opt /proc/sys/vm/dirty_writeback_centisecs 600
 for i in /sys/class/scsi_host/host*/link_power_management_policy; do opt $i max_performance; done
 
 # wlan0/eth0 powersave
-run iwconfig wlan0 power off
+run iw dev wlan0 set power_save off
 
 # Screen powersave
 for i in /sys/class/backlight/acpi_video*/brightness; do opt $i 5; done

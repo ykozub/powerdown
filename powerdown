@@ -44,7 +44,7 @@ opt /sys/module/snd_hda_intel/parameters/power_save_controller Y
 opt /sys/module/snd_ac97_codec/parameters/power_save 1
 
 # wlan0/eth0 powersave
-run iwconfig wlan0 power on
+run iw dev wlan0 set power_save on
 
 # Screen powersave
 for i in /sys/class/backlight/acpi_video*/brightness; do opt $i 0; done
