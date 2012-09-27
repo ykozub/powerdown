@@ -9,6 +9,8 @@ fi
 
 source /usr/lib/powerdown-functions
 
+lock
+
 # bus
 for i in /sys/bus/*/devices/*/power/control; do opt $i auto; done
 
@@ -58,4 +60,6 @@ unload_mod nouveau
 # Disable bluetooth
 unload_mod btusb
 unload_mod bluetooth
+
+unlock
 

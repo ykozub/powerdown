@@ -8,6 +8,8 @@ fi
 
 source /usr/lib/powerdown-functions
 
+lock
+
 # usb autosuspend
 for i in /sys/bus/usb/devices/*/power/autosuspend; do opt $i 600; done
 
@@ -40,3 +42,4 @@ load_mod nouveau
 load_mod btusb
 load_mod bluetooth
 
+unlock

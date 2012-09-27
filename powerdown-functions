@@ -88,3 +88,18 @@ root_partion() {
 resume_boot_option() {
   echo "'resume=$(root_partion) resume_offset=$(hibernate_offset)'"
 }
+
+lock() {
+    while [[ -f /tmp/powerdown.lock ]]; do
+        echo "acquiring lock"
+        sleep 10
+    done
+    : > /tmp/powerdown.lock
+    trap "rm /tmp/powerdown.lock; exit" SIGINT SIGTERM
+}
+
+unlock() {
+    echo "wait for 10 secs"
+    sleep 10
+    rm /tmp/powerdown.lock
+}
