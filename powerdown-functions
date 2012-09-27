@@ -95,11 +95,11 @@ lock() {
         sleep 10
     done
     : > /tmp/powerdown.lock
-    trap "rm /tmp/powerdown.lock; exit" SIGINT SIGTERM
+    trap "rm -f /tmp/powerdown.lock; exit" SIGINT SIGTERM
 }
 
 unlock() {
     echo "wait for 10 secs"
     sleep 10
-    rm /tmp/powerdown.lock
+    rm -f /tmp/powerdown.lock
 }
