@@ -92,14 +92,12 @@ resume_boot_option() {
 lock() {
     while [[ -f /tmp/powerdown.lock ]]; do
         echo "acquiring lock"
-        sleep 10
+        sleep 1
     done
     : > /tmp/powerdown.lock
     trap "rm -f /tmp/powerdown.lock; exit" SIGINT SIGTERM
 }
 
 unlock() {
-    echo "wait for 10 secs"
-    sleep 10
     rm -f /tmp/powerdown.lock
 }
