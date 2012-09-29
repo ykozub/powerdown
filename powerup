@@ -41,5 +41,3 @@ load_mod nouveau
 # Disable bluetooth
 load_mod btusb
 load_mod bluetooth
-
-unlock

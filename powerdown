@@ -61,5 +61,3 @@ unload_mod nouveau
 unload_mod btusb
 unload_mod bluetooth
 
-unlock
-

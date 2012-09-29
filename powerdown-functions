@@ -89,15 +89,13 @@ resume_boot_option() {
   echo "'resume=$(root_partion) resume_offset=$(hibernate_offset)'"
 }
 
+# lock the file until the script finishes
 lock() {
-    while [[ -f /tmp/powerdown.lock ]]; do
+    LOCK=/tmp/powerdown.lock
+    while [[ -f $LOCK ]]; do
         echo "acquiring lock"
         sleep 1
     done
-    : > /tmp/powerdown.lock
-    trap "rm -f /tmp/powerdown.lock; exit" SIGINT SIGTERM
-}
-
-unlock() {
-    rm -f /tmp/powerdown.lock
+    : > $LOCK
+    trap "rm -f $LOCK; exit" EXIT
 }
