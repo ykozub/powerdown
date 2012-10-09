@@ -92,10 +92,10 @@ resume_boot_option() {
 # lock the file until the script finishes
 lock() {
     LOCK=/tmp/powerdown.lock
-    while [[ -f $LOCK ]]; do
-        echo "acquiring lock"
-        sleep 1
-    done
+    if [[ -f $LOCK ]]; then
+        echo "cannot acquire lock: $LOCK"
+        exit
+    fi
     : > $LOCK
     trap "rm -f $LOCK; exit" EXIT
 }
