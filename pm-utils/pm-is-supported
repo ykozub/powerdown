@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
+source /usr/lib/powerdown-functions
+
 case "$@" in
-  --hibernate)
-        if [[ -f /hibernate ]]; then
+  --hibernate | --suspend-hybrid)
+        if can_suspend_to_disk; then
             exit 0
         else
             exit 1

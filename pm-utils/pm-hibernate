@@ -1,7 +1,3 @@
 #!/usr/bin/env bash
-
-echo "System hibernate..."
-
+echo "[powerdown] suspend-to-disk"
 suspend-to-disk
-
-echo "System resume..."

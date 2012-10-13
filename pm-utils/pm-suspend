@@ -1,7 +1,3 @@
 #!/usr/bin/env bash
-
-echo "System suspend..."
-
+echo "[powerdown] suspend-to-mem"
 suspend-to-mem
-
-echo "System resume..."

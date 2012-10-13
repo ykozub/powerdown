@@ -10,4 +10,5 @@ install:
 	install -D pm-utils/pm-powersave $(DESTDIR)/usr/sbin/pm-powersave
 	install -D pm-utils/pm-suspend $(DESTDIR)/usr/sbin/pm-suspend
 	install -D pm-utils/pm-hibernate $(DESTDIR)/usr/sbin/pm-hibernate
+	install -D pm-utils/pm-suspend-hybrid $(DESTDIR)/usr/sbin/pm-suspend-hybrid
 	install -D powerdown.rules $(DESTDIR)/etc/udev/rules.d/99-powerdown.rules

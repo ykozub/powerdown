@@ -78,15 +78,31 @@ display_wireless() {
 }
 
 hibernate_offset() {
-  filefrag -v /hibernate | awk '{print $3}' | awk 'NR==4'
+  filefrag -v /hibernate | awk 'NR==4 {print $3}'
 }
 
-root_partion() {
-  df / | awk '{print $1}' | awk 'NR==2'
+root_part() {
+  df / | awk 'NR==2 {print $1}'
+}
+
+has_swap_part () {
+    [[ $(cat /etc/fstab | grep swap) != "" ]]
+}
+
+can_suspend_to_disk () {
+    [[ -f /hibernate || has_swap_part ]]
+}
+
+swap_part() {
+    cat /etc/fstab | awk '/swap/ {print $1}'
 }
 
 resume_boot_option() {
-  echo "'resume=$(root_partion) resume_offset=$(hibernate_offset)'"
+    if [[ -f /hibernate ]]; then
+        echo "'resume=$(root_part) resume_offset=$(hibernate_offset)'"
+    elif has_swap_part; then
+        echo "'resume=$(swap_part)'"
+    fi
 }
 
 # lock the file until the script finishes

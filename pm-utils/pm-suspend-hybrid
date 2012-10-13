@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+echo "[powerdown] suspend-hybrid"
+suspend-hybrid

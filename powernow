@@ -8,6 +8,7 @@ fi
 
 source /usr/lib/powerdown-functions
 
+lock
 display_power
 echo
 echo " :: Detail"
