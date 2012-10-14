@@ -5,12 +5,12 @@ if [[ $EUID != 0 ]]; then
   exit 1
 fi
 
+source /usr/lib/powerdown-functions
+
 if ! can_suspend_to_disk; then
   echo "[powerdown] hibernate is not ready yet"
   exit 1
 fi
-
-source /usr/lib/powerdown-functions
 
 lock
 sync
