@@ -99,9 +99,9 @@ swap_part() {
 
 resume_boot_option() {
     if [[ -f /hibernate ]]; then
-        echo "'resume=$(root_part) resume_offset=$(hibernate_offset)'"
+        echo "resume=$(root_part) resume_offset=$(hibernate_offset)"
     elif has_swap_part; then
-        echo "'resume=$(swap_part)'"
+        echo "resume=$(swap_part)"
     fi
 }
 

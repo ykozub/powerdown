@@ -17,7 +17,7 @@ if ! can_suspend_to_disk ; then
     exit 1
 fi
 
-echo "1. Please add $(resume_boot_option) to the boot configuration"
+echo "1. Please add '$(resume_boot_option)' to the boot configuration"
 echo
 echo "2. Please add 'resume' hook to /etc/mkinitcpio.conf right in front of 'filesystem' hook"
 echo "Run 'mkinitcpio -p linux' to regenerate kernel image"
