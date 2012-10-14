@@ -86,7 +86,7 @@ root_part() {
 }
 
 has_swap_part () {
-    [[ $(cat /etc/fstab | grep swap) != "" ]]
+    [[ $(grep swap /etc/fstab) != "" ]]
 }
 
 can_suspend_to_disk () {
@@ -94,7 +94,7 @@ can_suspend_to_disk () {
 }
 
 swap_part() {
-    cat /etc/fstab | awk '/swap/ {print $1}'
+    awk '/swap/ {print $1; exit}' /etc/fstab
 }
 
 resume_boot_option() {
