@@ -15,7 +15,7 @@ fi
 lock
 sync
 
-intv=10
+intv=600
 # after 10 minutes, it will wake up and go to hibernate mode
 now=$(date -u +%s)
 rtcwake -u -m mem -s $intv
