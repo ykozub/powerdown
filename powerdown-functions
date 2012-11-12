@@ -11,7 +11,7 @@ opt() {
 unload_mod() {
   has_mod $1 || return
   mod_loaded $1 || return
-  rmmod -w $1 &>/dev/null || echo "[powerdown] cannot unload module $1"
+  modprobe -r $1 &>/dev/null || echo "[powerdown] cannot unload module $1"
 }
 
 # load kernel module
