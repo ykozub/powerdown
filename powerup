@@ -13,6 +13,9 @@ lock
 # usb autosuspend
 for i in /sys/bus/usb/devices/*/power/autosuspend; do opt $i 600; done
 
+# nmi_watchdog
+opt /proc/sys/kernel/nmi_watchdog 1
+
 # cpu
 #for i in /sys/devices/system/cpu/cpu*/online; do opt $i 1; done
 for i in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do opt $i performance; done
@@ -26,6 +29,9 @@ opt /proc/sys/vm/dirty_writeback_centisecs 600
 
 # Disk powersave
 for i in /sys/class/scsi_host/host*/link_power_management_policy; do opt $i max_performance; done
+for dev in $(awk '/^\/dev\/sd/ {print $1}' /etc/mtab); do run mount -o remount,relatime $dev; done
+for dev in $(awk '/^\/dev\/sd/ {print $1}' /etc/mtab); do run blockdev --setra 256 $dev; done
+for dev in $(awk '/^\/dev\/sd/ {print $1}' /etc/mtab); do run hdparm -B 254 -S 253 $dev; done
 
 # wlan0/eth0 powersave
 run iw dev wlan0 set power_save off
