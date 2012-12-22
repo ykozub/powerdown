@@ -12,7 +12,7 @@ source /usr/lib/powerdown-functions
 lock
 
 # bus
-for i in /sys/bus/*/devices/*/power/control; do opt "$i" auto; done
+for i in /sys/bus/{pci,usb}/devices/*/power/control; do opt "$i" auto; done
 
 # usb autosuspend
 for i in /sys/bus/usb/devices/*/power/autosuspend; do opt "$i" 10; done
