@@ -31,6 +31,12 @@ mod_loaded() {
 	grep -qs "^$1 " /proc/modules
 }
 
+# brightness scale 0 to 5
+brightness_scale() {
+  scale="$(echo "scale=0; $(cat /sys/class/backlight/acpi_video0/max_brightness) / 5" | bc)"
+  echo "$(( $scale * $1 ))"
+}
+
 # command
 run() {
   "$@" &> /dev/null || echo "[powerdown] cannot run $@"
@@ -44,9 +50,9 @@ display_power() {
   fi
   for bat in /sys/class/power_supply/BAT*; do
     if [[ -f "$bat/power_now" ]]; then
-      watt="$(echo "scale=3;$(cat "$bat"/power_now)/1000000" | bc)"
+      watt="$(echo "scale=3; $(cat "$bat"/power_now) / 1000000" | bc)"
     else
-      watt="$(echo "scale=3;$(cat "$bat"/current_now)/1000000" | bc)"
+      watt="$(echo "scale=3; $(cat "$bat"/current_now) / 1000000" | bc)"
     fi
     echo "[powerdown] $(basename "$bat") using $watt watts"
   done
