@@ -8,7 +8,7 @@ fi
 source /usr/lib/powerdown-functions
 lock
 
-if ! can_suspend_to_disk ; then
+if ! can_suspend_to_disk; then
     echo "[powerdown] your first time to use powerdown hibernate"
     echo "creating 2GB /hibernate"
     dd if=/dev/zero of=/hibernate bs=2M count=1024
