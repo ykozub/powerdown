@@ -1,4 +1,4 @@
-KERNEL=="AC0", SUBSYSTEM=="power_supply", ATTR{online}=="0", RUN+="/usr/bin/powerdown"
-KERNEL=="AC0", SUBSYSTEM=="power_supply", ATTR{online}=="1", RUN+="/usr/bin/powerup"
-KERNEL=="sr0", SUBSYSTEM=="block", ENV{POWER_SUPPLY_ONLINE}=="0", ENV{UDISKS_DISABLE_POLLING}="1"
-KERNEL=="sr0", SUBSYSTEM=="block", ENV{POWER_SUPPLY_ONLINE}=="1", ENV{UDISKS_DISABLE_POLLING}="0"
+SUBSYSTEM=="power_supply", ATTR{online}=="0", RUN+="/usr/bin/powerdown"
+SUBSYSTEM=="power_supply", ATTR{online}=="1", RUN+="/usr/bin/powerup"
+SUBSYSTEM=="block", ENV{POWER_SUPPLY_ONLINE}=="0", ENV{UDISKS_DISABLE_POLLING}="1"
+SUBSYSTEM=="block", ENV{POWER_SUPPLY_ONLINE}=="1", ENV{UDISKS_DISABLE_POLLING}="0"
