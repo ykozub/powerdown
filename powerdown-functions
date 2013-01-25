@@ -33,7 +33,7 @@ mod_loaded() {
 
 # brightness scale 0 to 5
 brightness_scale() {
-  scale="$(echo "scale=0; $(cat /sys/class/backlight/acpi_video0/max_brightness) / 5" | bc)"
+  local scale="$(echo "scale=0; $(cat /sys/class/backlight/acpi_video0/max_brightness) / 5" | bc)"
   echo "$(( $scale * $1 ))"
 }
 
@@ -49,6 +49,7 @@ display_power() {
     return
   fi
   for bat in /sys/class/power_supply/BAT*; do
+	local watt
     if [[ -f "$bat/power_now" ]]; then
       watt="$(echo "scale=3; $(cat "$bat"/power_now) / 1000000" | bc)"
     else
