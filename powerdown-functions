@@ -23,12 +23,12 @@ load_mod() {
 
 # module exists
 has_mod() {
-	modprobe -nq "$1"
+    modprobe -nq "$1"
 }
 
 # module loaded
 mod_loaded() {
-	grep -qs "^$1 " /proc/modules
+    grep -qs "^$1 " /proc/modules
 }
 
 # brightness scale 0 to 5
@@ -49,7 +49,7 @@ display_power() {
     return
   fi
   for bat in /sys/class/power_supply/BAT*; do
-	local watt
+    local watt
     if [[ -f "$bat/power_now" ]]; then
       watt="$(echo "scale=3; $(cat "$bat"/power_now) / 1000000" | bc)"
     else
@@ -64,35 +64,35 @@ display_power() {
 
 # get readahead
 display_readahead() {
-	echo " -> $1 readahead: $(blockdev --getra "$1")"
+    echo " -> $1 readahead: $(blockdev --getra "$1")"
 }
 
 # dump kernel option content
 dump () {
-	[[ -w "$1" && -r "$1" ]] || return
-	echo " -> $1: $(cat $1)"
+    [[ -w "$1" && -r "$1" ]] || return
+    echo " -> $1: $(cat $1)"
 }
 
 display_module() {
-	has_mod "$1" || return
-	echo -n " -> $1 "
-	mod_loaded "$1" && echo "loaded" || echo "not loaded"
+    has_mod "$1" || return
+    echo -n " -> $1 "
+    mod_loaded "$1" && echo "loaded" || echo "not loaded"
 }
 
 display_wireless() {
-	echo " -> $1 $(iw dev "$1" get power_save)"
+    echo " -> $1 $(iw dev "$1" get power_save)"
 }
 
 hibernate_offset() {
-	filefrag -v /hibernate | awk 'NR==4 {print $3}'
+    filefrag -v /hibernate | awk 'NR==4 {print $3}'
 }
 
 root_part() {
-	df / | awk 'NR==2 {print $1}'
+    df / | awk 'NR==2 {print $1}'
 }
 
 has_swap_part () {
-	grep -qs swap /etc/fstab
+    grep -qs swap /etc/fstab
 }
 
 can_suspend_to_disk () {
