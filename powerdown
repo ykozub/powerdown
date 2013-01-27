@@ -12,10 +12,11 @@ source /usr/lib/powerdown-functions
 lock
 
 # bus
-for i in /sys/bus/{pci,usb}/devices/*/power/control; do opt "$i" auto; done
+for i in /sys/bus/*/devices/*/power/control; do opt "$i" auto; done
 
 # usb autosuspend
 for i in /sys/bus/usb/devices/*/power/autosuspend; do opt "$i" 10; done
+usb_powersave
 
 # nmi_watchdog
 opt /proc/sys/kernel/nmi_watchdog 0
@@ -34,29 +35,34 @@ opt /proc/sys/vm/dirty_background_ratio 1
 opt /proc/sys/vm/dirty_expire_centisecs 60000
 opt /proc/sys/vm/dirty_writeback_centisecs 60000
 
-# Disk powersave
+# disk
 for i in /sys/class/scsi_host/host*/link_power_management_policy; do opt "$i" min_power; done
 for dev in $(awk '/^\/dev\/sd/ {print $1}' /etc/mtab); do run mount -o remount,noatime "$dev"; done
 for dev in $(awk '/^\/dev\/sd/ {print $1}' /etc/mtab); do run blockdev --setra 4096 "$dev"; done
 for dev in $(awk '/^\/dev\/sd/ {print $1}' /etc/mtab); do run hdparm -B 1 -S 120 "$dev"; done
 
-# Sound card powersave
+# sound card
 opt /sys/module/snd_hda_intel/parameters/power_save 1
 opt /sys/module/snd_hda_intel/parameters/power_save_controller Y
 opt /sys/module/snd_ac97_codec/parameters/power_save 1
 
-# wlan0/eth0 powersave
+# net
 run iw dev wlan0 set power_save on
 
-# Screen powersave
+# screen
 for i in /sys/class/backlight/acpi_video*/brightness; do opt "$i" "$(brightness_scale 1)"; done
-opt /sys/module/i915/parameters/i915_enable_rc6 1
 
-# Disable webcam
+# webcam
 unload_mod uvcvideo
-unload_mod nouveau
 unload_mod videodev
 
-# Disable bluetooth
+# bluetooth
 unload_mod btusb
 unload_mod bluetooth
+
+# open source ATI
+opt /sys/class/drm/card0/device/power_method profile
+opt /sys/class/drm/card0/device/power_profile low
+
+# i915
+opt /sys/module/i915/parameters/i915_enable_rc6 1

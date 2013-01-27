@@ -121,3 +121,22 @@ lock() {
     : > "$LOCK"
     trap "rm -f $LOCK; exit" EXIT
 }
+
+usb_powersave() {
+    for usbdev in $(find /sys/bus/usb/devices | grep -v :); do
+        local run=true
+        for subdev in $usbdev/*:*; do
+            # USB_DEVICE_CLASS 3 = HID
+            if [[ "$(cat $subdev/bInterfaceClass)" == "03" ]]; then
+                run=false
+                break
+            fi
+        done
+        
+        if $run; then
+            opt $usbdev/power/control auto
+        else
+            opt $usbdev/power/control on
+        fi
+    done
+}
