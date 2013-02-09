@@ -57,9 +57,6 @@ display_power() {
     fi
     echo "[powerdown] $(basename "$bat") using $watt watts"
   done
-  if [[ -f /usr/bin/acpi ]]; then
-    acpi
-  fi
 }
 
 # get readahead
