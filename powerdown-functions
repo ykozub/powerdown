@@ -26,6 +26,10 @@ has_mod() {
     modprobe -nq "$1"
 }
 
+has_net() {
+    ls /sys/class/net | grep -qs "^$1$"
+}
+
 # module loaded
 mod_loaded() {
     grep -qs "^$1 " /proc/modules
@@ -80,6 +84,7 @@ display_module() {
 }
 
 display_wireless() {
+    has_net "$1" || return
     echo " -> $1 $(iw dev "$1" get power_save)"
 }
 
