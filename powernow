@@ -40,7 +40,7 @@ dump /sys/module/snd_hda_intel/parameters/power_save_controller
 dump /sys/module/snd_ac97_codec/parameters/power_save
 
 # net
-display_wireless wlan0
+for i in $(iw dev | grep Interface | cut -d ' ' -f 2); do display_wireless "$i"; done
 
 # screen
 for i in /sys/class/backlight/acpi_video*/brightness; do dump "$i"; done

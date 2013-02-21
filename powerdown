@@ -46,7 +46,7 @@ opt /sys/module/snd_hda_intel/parameters/power_save_controller Y
 opt /sys/module/snd_ac97_codec/parameters/power_save 1
 
 # net
-run iw dev wlan0 set power_save on
+for i in $(iw dev | grep Interface | cut -d ' ' -f 2); do run iw dev "$i" set power_save on; done
 
 # screen
 for i in /sys/class/backlight/acpi_video*/brightness; do opt "$i" "$(brightness_scale 1)"; done

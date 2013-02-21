@@ -77,10 +77,7 @@ display_module() {
 }
 
 display_wireless() {
-    local status="$(iw dev "$1" get power_save 2>/dev/null)"
-    if [[ $? == 0 ]]; then
-        echo " -> $1 $status"
-    fi
+    echo " -> $1 $(iw dev "$1" get power_save)"
 }
 
 hibernate_offset() {
