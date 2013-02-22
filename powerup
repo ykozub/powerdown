@@ -49,7 +49,7 @@ opt /sys/module/snd_ac97_codec/parameters/power_save 0
 for i in $(iw dev | grep Interface | cut -d ' ' -f 2); do run iw dev "$i" set power_save off; done
 
 # screen
-for i in /sys/class/backlight/acpi_video*/brightness; do opt "$i" "$(brightness_scale 5)"; done
+for i in /sys/class/backlight/*; do opt "$i/brightness" "$(brightness_scale 5 "$i")"; done
 
 # webcam
 load_mod uvcvideo

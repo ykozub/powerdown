@@ -43,7 +43,7 @@ dump /sys/module/snd_ac97_codec/parameters/power_save
 for i in $(iw dev | grep Interface | cut -d ' ' -f 2); do display_wireless "$i"; done
 
 # screen
-for i in /sys/class/backlight/acpi_video*/brightness; do dump "$i"; done
+for i in /sys/class/backlight/*; do dump "$i/brightness"; done
 
 # webcam
 display_module uvcvideo
