@@ -116,7 +116,7 @@ lock() {
         exit
     fi
     : > "$LOCK"
-    trap "rm -f $LOCK; exit" EXIT
+    trap "rm -f $LOCK" EXIT
 }
 
 usb_powersave() {
