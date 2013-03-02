@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 
 if [[ $EUID != 0 ]]; then
-  echo "[powerdown] must be run as root"
-  exit 1
+    echo "[powerdown] must be run as root"
+    exit 1
 fi
 
 source /usr/lib/powerdown-functions
 
 if ! can_suspend_to_disk; then
-  echo "[powerdown] hibernate is not ready yet"
-  exit 1
+    echo "[powerdown] hibernate is not ready yet"
+    exit 1
 fi
 
 lock

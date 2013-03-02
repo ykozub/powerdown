@@ -2,8 +2,8 @@
 # powerdown - get energy usagei
 
 if [[ $EUID != 0 ]]; then
-  echo "[powerdown] must be run as root"
-  exit 1
+    echo "[powerdown] must be run as root"
+    exit 1
 fi
 
 source /usr/lib/powerdown-functions
