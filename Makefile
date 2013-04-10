@@ -12,3 +12,5 @@ install:
 	install -D pm-utils/pm-hibernate $(DESTDIR)/usr/sbin/pm-hibernate
 	install -D pm-utils/pm-suspend-hybrid $(DESTDIR)/usr/sbin/pm-suspend-hybrid
 	install -D powerdown.rules $(DESTDIR)/usr/lib/udev/rules.d/99-powerdown.rules
+	install -D power_supply@.service $(DESTDIR)/usr/lib/systemd/system/power_supply@.service
+	install -D power_supply $(DESTDIR)/usr/bin/power_supply

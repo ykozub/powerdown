@@ -21,6 +21,7 @@ opt /proc/sys/kernel/nmi_watchdog 1
 
 # cpu
 for i in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do opt "$i" ondemand; done
+for i in /sys/class/thermal/cooling_device*/cur_state; do opt "$i" 0; done
 
 # aspm
 opt /sys/module/pcie_aspm/parameters/policy default
@@ -63,3 +64,5 @@ opt /sys/class/drm/card0/device/power_profile default
 
 # i915
 opt /sys/module/i915/parameters/i915_enable_rc6 0
+
+exit 0
