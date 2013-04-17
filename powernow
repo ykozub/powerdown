@@ -18,6 +18,7 @@ dump /proc/sys/kernel/nmi_watchdog
 
 # cpu
 for i in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do dump "$i"; done
+for i in /sys/class/thermal/cooling_device*/cur_state; do dump "$i"; done
 
 # aspm
 dump /sys/module/pcie_aspm/parameters/policy

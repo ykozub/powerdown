@@ -21,7 +21,7 @@ opt /proc/sys/kernel/nmi_watchdog 0
 
 # cpu
 for i in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do opt "$i" ondemand; done
-#for i in /sys/class/thermal/cooling_device*/cur_state; do opt "$i" 10; done
+for i in /sys/class/thermal/cooling_device*; do opt "$i/cur_state" "$(num_scale "$i/max_state" 4)"; done
 
 # aspm
 opt /sys/module/pcie_aspm/parameters/policy powersave
@@ -48,7 +48,7 @@ opt /sys/module/snd_ac97_codec/parameters/power_save 1
 for i in $(iw dev | grep Interface | cut -d ' ' -f 2); do run iw dev "$i" set power_save on; done
 
 # screen
-for i in /sys/class/backlight/*; do opt "$i/brightness" "$(brightness_scale 1 "$i")"; done
+for i in /sys/class/backlight/*; do opt "$i/brightness" "$(num_scale "$i/max_brightness" 1)"; done
 
 # webcam
 unload_mod uvcvideo

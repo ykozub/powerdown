@@ -32,9 +32,11 @@ mod_loaded() {
 }
 
 # brightness scale 0 to 5
-brightness_scale() {
-    local scale="$(echo "scale=0; $(cat "$2/max_brightness") / 5" | bc)"
-    echo "$(( $scale * $1 ))"
+# $1 = max file
+# $2 = value
+num_scale() {
+    local scale="$(echo "scale=0; $(cat "$1") / 5" | bc)"
+    echo "$(( $scale * $2 ))"
 }
 
 # command
