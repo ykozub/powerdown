@@ -35,7 +35,7 @@ mod_loaded() {
 # $1 = max file
 # $2 = value
 num_scale() {
-    local scale="$(echo "scale=0; $(cat "$1") / 5" | bc)"
+    local scale="$(echo "$(cat "$1") / 5" | bc)"
     echo "$(( $scale * $2 ))"
 }
 

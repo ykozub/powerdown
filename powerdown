@@ -21,7 +21,7 @@ opt /proc/sys/kernel/nmi_watchdog 0
 
 # cpu
 for i in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do opt "$i" ondemand; done
-for i in /sys/class/thermal/cooling_device*; do opt "$i/cur_state" "$(num_scale "$i/max_state" 4)"; done
+#for i in /sys/class/thermal/cooling_device*; do opt "$i/cur_state" "$(num_scale "$i/max_state" 4)"; done
 
 # aspm
 opt /sys/module/pcie_aspm/parameters/policy powersave
