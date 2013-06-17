@@ -4,7 +4,7 @@
 # turn on kernel options
 opt() {
     [[ -f "$1" ]] || return
-    echo "$2" | tee "$1" &>/dev/null || echo "[powerdown] cannot write $2 to $1"
+    tee "$1" <<<"$2" &>/dev/null || echo "[powerdown] cannot write $2 to $1"
 }
 
 # unload kernel module
@@ -35,7 +35,7 @@ mod_loaded() {
 # $1 = max file
 # $2 = value
 num_scale() {
-    local scale="$(echo "$(cat "$1") / 5" | bc)"
+    local scale="$(bc <<< "$(< "$1") / 5")"
     echo "$(( $scale * $2 ))"
 }
 
@@ -50,12 +50,13 @@ display_power() {
         echo "[powerdown] no battery"
         return
     fi
+    local bat
     for bat in /sys/class/power_supply/BAT*; do
         local watt
         if [[ -f "$bat/power_now" ]]; then
-            watt="$(echo "scale=3; $(cat "$bat"/power_now) / 1000000" | bc)"
+            watt="$(bc <<< "scale=3; $(< "$bat"/power_now) / 1000000")"
         else
-            watt="$(echo "scale=3; $(cat "$bat"/current_now) / 1000000" | bc)"
+            watt="$(bc <<< "scale=3; $(< "$bat"/current_now) / 1000000")"
         fi
         echo "[powerdown] $(basename "$bat") using $watt watts"
     done
@@ -69,7 +70,7 @@ display_readahead() {
 # dump kernel option content
 dump () {
     [[ -w "$1" && -r "$1" ]] || return
-    echo " -> $1: $(cat $1)"
+    echo " -> $1: $(< $1)"
 }
 
 display_module() {
@@ -112,7 +113,7 @@ resume_boot_option() {
 
 # lock the file until the script finishes
 lock() {
-    LOCK=/tmp/powerdown.lock
+    local LOCK=/tmp/powerdown.lock
     if [[ -f "$LOCK" ]]; then
         echo "Working... $LOCK"
         exit
@@ -122,11 +123,13 @@ lock() {
 }
 
 usb_powersave() {
+    local usbdev
     for usbdev in $(find /sys/bus/usb/devices | grep -v :); do
         local run=true
+        local subdev
         for subdev in $usbdev/*:*; do
             # USB_DEVICE_CLASS 3 = HID
-            if [[ "$(cat $subdev/bInterfaceClass)" == "03" ]]; then
+            if [[ "$(< $subdev/bInterfaceClass)" == 03 ]]; then
                 run=false
                 break
             fi
