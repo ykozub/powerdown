@@ -56,7 +56,7 @@ display_power() {
         if [[ -f "$bat/power_now" ]]; then
             watt="$(bc <<< "scale=3; $(< "$bat"/power_now) / 1000000")"
         else
-            watt="$(bc <<< "scale=3; $(< "$bat"/current_now) / 1000000")"
+            watt="$(bc <<< "scale=3; $(< "$bat"/current_now) * $(< "$bat"/voltage_now) / 1000000000000")"
         fi
         echo "[powerdown] $(basename "$bat") using $watt watts"
     done
