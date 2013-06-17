@@ -14,3 +14,5 @@ install:
 	install -D powerdown.rules $(DESTDIR)/usr/lib/udev/rules.d/99-powerdown.rules
 	install -D power_supply@.service $(DESTDIR)/usr/lib/systemd/system/power_supply@.service
 	install -D power_supply $(DESTDIR)/usr/bin/power_supply
+	install -d $(DESTDIR)/etc/powerdown
+	install -d $(DESTDIR)/etc/powerup

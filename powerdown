@@ -65,4 +65,6 @@ opt /sys/class/drm/card0/device/power_profile low
 # i915
 opt /sys/module/i915/parameters/i915_enable_rc6 1
 
+# other
+for i in $(find /etc/powerdown -type f); do run $i; done
 exit 0
