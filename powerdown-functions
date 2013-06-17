@@ -41,7 +41,7 @@ num_scale() {
 
 # command
 run() {
-    "$@" &> /dev/null || echo "[powerdown] cannot run $@"
+    $* &> /dev/null || echo "[powerdown] cannot run $*"
 }
 
 # get current power usage
@@ -54,9 +54,9 @@ display_power() {
     for bat in /sys/class/power_supply/BAT*; do
         local watt
         if [[ -f "$bat/power_now" ]]; then
-            watt="$(bc <<< "scale=3; $(< "$bat"/power_now) / 1000000")"
+            watt="$(bc <<< "scale=3; $(< "$bat/power_now") / 1000000")"
         else
-            watt="$(bc <<< "scale=3; $(< "$bat"/current_now) * $(< "$bat"/voltage_now) / 1000000000000")"
+            watt="$(bc <<< "scale=3; $(< "$bat/current_now") * $(< "$bat/voltage_now") / 1000000000000")"
         fi
         echo "[powerdown] $(basename "$bat") using $watt watts"
     done
@@ -70,7 +70,7 @@ display_readahead() {
 # dump kernel option content
 dump () {
     [[ -w "$1" && -r "$1" ]] || return
-    echo " -> $1: $(< $1)"
+    echo " -> $1: $(< "$1")"
 }
 
 display_module() {
@@ -129,7 +129,7 @@ usb_powersave() {
         local subdev
         for subdev in $usbdev/*:*; do
             # USB_DEVICE_CLASS 3 = HID
-            if [[ "$(< $subdev/bInterfaceClass)" == 03 ]]; then
+            if [[ "$(< "$subdev/bInterfaceClass")" == 03 ]]; then
                 run=false
                 break
             fi
