@@ -20,7 +20,7 @@ for i in /sys/bus/usb/devices/*/power/control; do opt "$i" on; done
 opt /proc/sys/kernel/nmi_watchdog 1
 
 # cpu
-for i in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do opt "$i" ondemand; done
+for i in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do opt "$i" performance; done
 for i in /sys/class/thermal/cooling_device*/cur_state; do opt "$i" 0; done
 
 # aspm
