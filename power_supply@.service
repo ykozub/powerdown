@@ -1,3 +1,4 @@
 [Service]
-Type=oneshot
+Type=forking
+GuessMainPID=no
 ExecStart=/usr/bin/power_supply %I
