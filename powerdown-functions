@@ -41,12 +41,12 @@ num_scale() {
 
 # command
 run() {
-    $* &> /dev/null || echo "[powerdown] cannot run $*"
+    "$@" &> /dev/null || echo "[powerdown] cannot run $@"
 }
 
 # get current power usage
 display_power() {
-    if [[ "$(find /sys/class/power_supply -name BAT*)" == "" ]]; then
+    if [[ ! "$(find /sys/class/power_supply -name BAT*)" ]]; then
         echo "[powerdown] no battery"
         return
     fi
