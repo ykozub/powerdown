@@ -122,23 +122,19 @@ lock() {
     trap "rm -f $LOCK" EXIT
 }
 
+# $1 = device path
+is_usb_hid() {
+    local subdev
+    for subdev in $1/*:*; do
+        # USB_DEVICE_CLASS 3 = HID
+        [[ "$(< "$subdev/bInterfaceClass")" == 03 ]] && return 0
+    done
+    return 1
+}
+
 usb_powersave() {
     local usbdev
-    for usbdev in $(find /sys/bus/usb/devices | grep -v :); do
-        local run=true
-        local subdev
-        for subdev in $usbdev/*:*; do
-            # USB_DEVICE_CLASS 3 = HID
-            if [[ "$(< "$subdev/bInterfaceClass")" == 03 ]]; then
-                run=false
-                break
-            fi
-        done
-
-        if $run; then
-            opt $usbdev/power/control auto
-        else
-            opt $usbdev/power/control on
-        fi
+    for usbdev in $(find /sys/bus/usb/devices/* -regex [^:]+); do
+        is_usb_hid "$usbdev" && opt $usbdev/power/control on || opt $usbdev/power/control auto
     done
 }
