@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # powerdown-functions
 
+shopt -s nullglob extglob
+
 # turn on kernel options
 opt() {
     [[ -f "$1" ]] || return
@@ -44,9 +46,17 @@ run() {
     "$@" &> /dev/null || echo "[powerdown] cannot run $@"
 }
 
+has_bat() {
+	local bat
+	for bat in /sys/class/power_supply/BAT*; do
+		return 0
+	done
+	return 1
+}
+
 # get current power usage
 display_power() {
-    if [[ ! "$(find /sys/class/power_supply -name BAT*)" ]]; then
+    if ! has_bat; then
         echo "[powerdown] no battery"
         return
     fi
@@ -114,11 +124,11 @@ resume_boot_option() {
 # lock the file until the script finishes
 lock() {
     local LOCK=/tmp/powerdown.lock
-    if [[ -f "$LOCK" ]]; then
+    if [[ -f $LOCK ]]; then
         echo "Working... $LOCK"
         exit
     fi
-    : > "$LOCK"
+    : > $LOCK
     trap "rm -f $LOCK" EXIT
 }
 
@@ -134,7 +144,7 @@ is_usb_hid() {
 
 usb_powersave() {
     local usbdev
-    for usbdev in $(find /sys/bus/usb/devices/* -regex [^:]+); do
+    for usbdev in /sys/bus/usb/devices/+([^:]); do
         is_usb_hid "$usbdev" && opt $usbdev/power/control on || opt $usbdev/power/control auto
     done
 }
