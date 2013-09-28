@@ -9,6 +9,7 @@ fi
 
 shopt -s nullglob
 source /usr/lib/powerdown-functions
+lock
 
 # bus
 for i in /sys/bus/*/devices/*/power/control; do opt "$i" on; done
@@ -22,7 +23,8 @@ opt /proc/sys/kernel/nmi_watchdog 1
 
 # cpu
 for i in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do opt "$i" performance; done
-for i in /sys/class/thermal/cooling_device*/cur_state; do opt "$i" 0; done
+load_mod msr
+x86_energy_perf_policy normal
 
 # aspm
 opt /sys/module/pcie_aspm/parameters/policy default
@@ -64,7 +66,7 @@ opt /sys/class/drm/card0/device/power_method profile
 opt /sys/class/drm/card0/device/power_profile default
 
 # i915
-opt /sys/module/i915/parameters/i915_enable_rc6 0
+#opt /sys/module/i915/parameters/i915_enable_rc6 0
 
 # other
 for i in /etc/powerup/*; do run $i; done

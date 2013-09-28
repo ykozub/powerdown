@@ -2,19 +2,14 @@
 
 source /usr/lib/powerdown-functions
 
-case "$@" in
+case "$*" in
     --hibernate | --suspend-hybrid)
-        if can_suspend_to_disk; then
-            exit 0
-        else
-            exit 1
-        fi
+        can_suspend_to_disk
         ;;
     --suspend)
-        exit 0
         ;;
     *)
-        echo "[powerdown] pm-is-supported [ --hibernate | --suspend ]"
+        echo "[powerdown] pm-is-supported [ --hibernate | --suspend-hybrid | --suspend ]"
         exit 1;
         ;;
 esac
