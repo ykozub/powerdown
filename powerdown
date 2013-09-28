@@ -24,7 +24,7 @@ opt /proc/sys/kernel/nmi_watchdog 0
 # cpu
 for i in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do opt "$i" powersave; done
 load_mod msr
-x86_energy_perf_policy powersave
+run x86_energy_perf_policy powersave
 
 # aspm
 opt /sys/module/pcie_aspm/parameters/policy powersave
