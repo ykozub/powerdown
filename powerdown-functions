@@ -91,7 +91,7 @@ display_wireless() {
 }
 
 hibernate_offset() {
-    filefrag -v /hibernate | awk 'NR==4 {print $3}'
+    filefrag -v /hibernate | awk 'NR==4 {print $4}' | tr -d .
 }
 
 root_part() {
