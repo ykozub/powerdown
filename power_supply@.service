@@ -1,4 +1,4 @@
 [Service]
 Type=forking
 GuessMainPID=no
-ExecStart=/usr/bin/power_supply %I
+ExecStart=/usr/bin/pm-powersave %I

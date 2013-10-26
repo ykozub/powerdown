@@ -67,7 +67,4 @@ opt /sys/class/drm/card0/device/power_profile default
 
 # i915
 #opt /sys/module/i915/parameters/i915_enable_rc6 0
-
-# other
-for i in /etc/powerup/*; do run $i; done
 exit 0

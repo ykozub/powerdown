@@ -6,7 +6,7 @@ shopt -s nullglob extglob
 # turn on kernel options
 opt() {
     [[ -f "$1" ]] || return
-    [[ -w "$1" ]] && echo "$2" > "$1" || echo "[powerdown] cannot write $2 to $1"
+    [[ -w "$1" ]] && echo "$2" | tee "$1" &>/dev/null || echo "[powerdown] cannot write $2 to $1"
 }
 
 # unload kernel module
@@ -107,7 +107,7 @@ can_suspend_to_disk () {
 }
 
 swap_part() {
-    awk '/swap/ {print $1; exit}' /etc/fstab
+    awk '$3=="swap" {print $1; exit}' /etc/fstab
 }
 
 resume_boot_option() {
@@ -142,6 +142,6 @@ is_usb_hid() {
 usb_powersave() {
     local usbdev
     for usbdev in /sys/bus/usb/devices/+([^:]); do
-        is_usb_hid "$usbdev" && opt $usbdev/power/control on || opt $usbdev/power/control auto
+        is_usb_hid "$usbdev" && opt "$usbdev/power/control" on || opt "$usbdev/power/control" auto
     done
 }
