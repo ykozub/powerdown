@@ -5,7 +5,7 @@ install:
 	install -D powernow $(DESTDIR)/usr/bin/powernow
 	install -D setup-hibernate $(DESTDIR)/usr/bin/setup-hibernate
 	install -D powerdown.rules $(DESTDIR)/usr/lib/udev/rules.d/99-powerdown.rules
-	install -D power_supply@.service $(DESTDIR)/usr/lib/systemd/system/power_supply@.service
+	install -D powerdown@.service $(DESTDIR)/usr/lib/systemd/system/powerdown@.service
 	install -D pm-utils/pm-is-supported $(DESTDIR)/usr/bin/pm-is-supported
 	install -D pm-utils/pm-powersave $(DESTDIR)/usr/bin/pm-powersave
 	install -D pm-utils/pm-suspend $(DESTDIR)/usr/bin/pm-suspend

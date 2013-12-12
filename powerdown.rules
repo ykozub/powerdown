@@ -1,2 +1,2 @@
-ENV{POWER_SUPPLY_ONLINE}=="0", RUN+="/usr/bin/systemctl restart power_supply@true.service"
-ENV{POWER_SUPPLY_ONLINE}=="1", RUN+="/usr/bin/systemctl restart power_supply@false.service"
+SUBSYSTEM=="power_supply", ATTR{online}=="0", RUN+="/usr/bin/systemctl restart powerdown@true.service"
+SUBSYSTEM=="power_supply", ATTR{online}=="1", RUN+="/usr/bin/systemctl restart powerdown@false.service"
