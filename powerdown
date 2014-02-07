@@ -49,17 +49,16 @@ opt /sys/module/snd_ac97_codec/parameters/power_save 1
 
 # net
 for i in $(iw dev | awk '$1 == "Interface" { print $2 }'); do run iw dev "$i" set power_save on; done
+run ethtool -s eth0 wol d
 
 # screen
 for i in /sys/class/backlight/*; do opt "$i/brightness" "$(num_scale "$i/max_brightness" 1)"; done
 
 # webcam
-unload_mod uvcvideo
-unload_mod videodev
+unload_mod_recursive videodev
 
 # bluetooth
-unload_mod btusb
-unload_mod bluetooth
+unload_mod_recursive bluetooth
 
 # open source ATI
 opt /sys/class/drm/card0/device/power_method profile

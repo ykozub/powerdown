@@ -15,6 +15,14 @@ unload_mod() {
     modprobe -r "$1" || echo "[powerdown] cannot unload module $1"
 }
 
+unload_mod_recursive() {
+	local dep
+	for dep in $(lsmod | awk -v mod="$1" '$1==mod {gsub(",", " ", $4); print $4}'); do
+		unload_mod_recursive "$dep"
+	done
+	unload_mod "$1"
+}
+
 # load kernel module
 load_mod() {
     has_mod "$1" || return
