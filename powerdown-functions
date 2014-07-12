@@ -129,7 +129,7 @@ resume_boot_option() {
 # lock the file until the script finishes
 lock() {
     local LOCK=/tmp/powerdown.lock
-    if mkdir $LOCK 2> /dev/null; then
+    if ! mkdir "$LOCK" 2> /dev/null; then
         echo "Working... $LOCK"
         exit
     fi
