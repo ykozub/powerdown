@@ -60,8 +60,10 @@ unload_mod_recursive videodev
 unload_mod_recursive bluetooth
 
 # open source ATI
-opt /sys/class/drm/card0/device/power_method profile
-opt /sys/class/drm/card0/device/power_profile low
+opt /sys/kernel/debug/vgaswitcheroo/switch OFF
+for i in /sys/class/drm/card*/device/power_method; do opt "$i" profile; done
+for i in /sys/class/drm/card*/device/power_profile; do opt "$i" low; done
+for i in /sys/class/drm/card*/device/power_dpm_state; do opt "$i" battery; done
 
 # i915
 #opt /sys/module/i915/parameters/i915_enable_rc6 1
