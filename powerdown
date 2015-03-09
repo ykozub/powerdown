@@ -60,6 +60,9 @@ unload_mod_recursive videodev
 service bluetooth stop
 unload_mod_recursive bluetooth
 
+# eth0 down
+ifconfig eth0 down
+
 # open source ATI
 opt /sys/kernel/debug/vgaswitcheroo/switch OFF
 for i in /sys/class/drm/card*/device/power_method; do opt "$i" profile; done
