@@ -60,6 +60,9 @@ load_mod videodev
 service bluetooth restart
 load_mod bluetooth
 
+# enable eth0
+ifconfig eth0 up
+
 # open source ATI
 opt /sys/kernel/debug/vgaswitcheroo/switch ON
 for i in /sys/class/drm/card*/device/power_method; do opt "$i" profile; done
