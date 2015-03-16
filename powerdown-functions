@@ -43,7 +43,7 @@ mod_loaded() {
 # $1 = max file
 # $2 = value
 num_scale() {
-    echo $(($(< "$1") / 5 * $2))
+    echo $(($(< "$1") / 10 * $2))
 }
 
 # command
